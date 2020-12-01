@@ -9,13 +9,13 @@ except ImportError:  # pragma: no cover
     NativeJSONField = object
 
 from django.conf import settings
-from django.utils import six
 from django.utils.module_loading import import_string
 from psycopg2.extras import Json
+import six
 
 
 def _get_jsonfield_encoder_class():
-    encoder_class = getattr(settings, 'JSONFIELD_ENCODER_CLASS', None)
+    encoder_class = getattr(settings, "JSONFIELD_ENCODER_CLASS", None)
     if encoder_class:
         if isinstance(encoder_class, six.string_types):
             encoder_class = import_string(encoder_class)
@@ -28,16 +28,17 @@ def _get_dumps():
 
 
 class _JSONField(NativeJSONField):
-    """ Patches Django's JSONField to use django-jsonfield's
-        JSONFIELD_ENCODER_CLASS setting
+    """Patches Django's JSONField to use django-jsonfield's
+    JSONFIELD_ENCODER_CLASS setting
     """
+
     def get_prep_value(self, value):
         if value is not None:
             return Json(value, dumps=_get_dumps())
         return value
 
     def get_prep_lookup(self, lookup_type, value):
-        if lookup_type in ('has_key', 'has_keys', 'has_any_keys'):
+        if lookup_type in ("has_key", "has_keys", "has_any_keys"):
             return value
         if isinstance(value, (dict, list)):
             return Json(value, dumps=_get_dumps())
@@ -45,6 +46,6 @@ class _JSONField(NativeJSONField):
 
     def deconstruct(self):
         name, _, args, kwargs = super(_JSONField, self).deconstruct()
-        kwargs.setdefault('default', dict)
-        path = 'jsonfield_compat.fields.JSONField'
+        kwargs.setdefault("default", dict)
+        path = "jsonfield_compat.fields.JSONField"
         return name, path, args, kwargs

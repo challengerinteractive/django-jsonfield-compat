@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="django-jsonfield-compat",
-    version='0.4.4',
+    version="0.5.0",
     description="Compatability layer between django-jsonfield and Django's native JSONField",
     long_description=open("README.md").read(),
     url="http://github.com/kbussell/django-jsonfield-compat/",
@@ -12,11 +12,11 @@ setup(
         "jsonfield_compat",
     ],
     classifiers=[
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Framework :: Django',
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Framework :: Django",
     ],
     zip_safe=False,
 )
